@@ -1,0 +1,52 @@
+{% extends "frontend/layout.html" %}
+
+{%block page%} Login {%endblock%}
+{%block title%} Login {%endblock%}
+{% block body %}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card d-flex">
+                <div class="card-header">
+                    Login
+                </div>
+                <div class="card-body">
+                        {% if message %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endif %}
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input autofocus class="form-control" type="text" name="username" placeholder="username">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input autofocus class="form-control" type="text" name="email" placeholder="Email">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input class="form-control" type="password" name="password" placeholder="Password">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Confirm Password</label>
+                                <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+                            </div>
+        
+                            <input type="submit" class="btn btn-primary" value="register">
+
+                        </form>
+            
+                        You have an account?<a class = "card-link" href="{% url 'login' %}">Login here</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-4"></div>
+
+        </div>
+    </div>
+
+{% endblock %}
