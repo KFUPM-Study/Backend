@@ -48,3 +48,5 @@ class TakeTest(APIView):
 
 
         return Response(data)
+    def post(self, request):
+        pass

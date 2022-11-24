@@ -1,5 +1,5 @@
 {% extends 'frontend/layout.html'%}
-
+{%load static%}
 {%block page%}Home{%endblock%}
 
 {%block title%}
@@ -7,5 +7,11 @@ Home
 {%endblock%}
 
 {%block body%}
-<h1 class="text-center">Hello world</h1>
+
+<div class="container-fluid">
+    <div class="row ms-2 me-2 mb-3" id="subjects-list">
+
+    </div>
+</div>
+<script src="{%static 'functions/home.js'%}"></script>
 {%endblock%}

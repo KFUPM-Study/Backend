@@ -11,6 +11,10 @@ from django.db import IntegrityError
 def home(request):
     return render(request, 'frontend/home.html')
 
+@login_required(login_url= "login")
+def tests(request, subject):
+    return render(request, 'frontend/tests.html')
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("home"))  
