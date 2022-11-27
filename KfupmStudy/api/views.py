@@ -32,19 +32,17 @@ class TakeTest(APIView):
         questions = {}
         for question in data['questions']:
             q = Question.objects.get(id = question)
-            serializer = QuestionSerializer(q)
+            serializer = QuestionSerializer(q).data
+            answer = Answer.objects.get(question = q)
+            answers = AnswerSerializer(answer)
 
-            answers = {}
-            num_answer = 0
-            for answer in serializer.data['answers']:
-                a = Answer.objects.get(id = answer)
-                answer_serializer = AnswerSerializer(a)
-                answers[num_answer] = answer_serializer.data 
-                num_answer += 1
-            questions[q.question_body] = answers
+            serializer["answers"] = answers.data
+            
+            questions[q.question_num] = serializer
+
             
                
-        data["questions"] = questions    
+        data["questions"] = questions  
 
 
         return Response(data)

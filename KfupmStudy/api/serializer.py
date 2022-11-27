@@ -19,9 +19,9 @@ class TestSerializer(ModelSerializer):
 class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
-        fields = "__all__"
+        fields = ['id', 'question_body']
 
 class AnswerSerializer(ModelSerializer):
     class Meta:
         model = Answer
-        fields = "__all__"
+        fields = ['id','choice_A', 'choice_B', 'choice_C', 'choice_D']

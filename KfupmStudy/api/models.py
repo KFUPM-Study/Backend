@@ -29,16 +29,28 @@ class Test(models.Model):
         return f'{self.title}'
     
 class Question(models.Model):
-    question_body = models.CharField(max_length=300)
-    answers = models.ManyToManyField('Answer')
+    question_body = models.TextField()
     question_num = models.PositiveIntegerField()
 
     def __str__(self):
         return f'{self.question_num}.{self.question_body}'
 
 class Answer(models.Model):
-    answer_body = models.CharField(max_length=64)
-    isCorrect = models.BooleanField()
+    choices = {
+        ('A' , "A"),
+        ('B' , "B"),
+        ('C' , "C"),
+        ('D' , "D"),
+    }
+
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+
+    choice_A = models.CharField(max_length=300, null=True, blank=True)
+    choice_B = models.CharField(max_length=300, null=True, blank=True)
+    choice_C = models.CharField(max_length=300, null=True, blank=True)
+    choice_D = models.CharField(max_length=300, null=True, blank=True)
+    correct_answer = models.CharField(choices=choices, max_length=1, null=True) 
+    
 
     def __str__(self):
-        return f'{self.answer_body}'
+        return f'{self.question.question_body}'

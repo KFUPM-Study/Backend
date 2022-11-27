@@ -4,7 +4,7 @@ fetch('http://127.0.0.1:8000/api/subjects/')
 .then(result =>{
     for(subject of result){
         sub_name = subject.name
-        sub_picture = subject.picture.slice(10)
+        sub_picture = subject.picture.slice(9)
         subject_list.innerHTML += `
         <div class="col-6 col-xl-4  mt-3">
             <div class="card" id="${sub_name}">
