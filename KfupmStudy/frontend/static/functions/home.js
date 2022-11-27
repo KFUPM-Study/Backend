@@ -6,7 +6,7 @@ fetch('http://127.0.0.1:8000/api/subjects/')
         sub_name = subject.name
         sub_picture = subject.picture.slice(10)
         subject_list.innerHTML += `
-        <div class="col-6 col-sm-4 col-md-3 mt-3">
+        <div class="col-6 col-xl-4  mt-3">
             <div class="card" id="${sub_name}">
                 <img src="${sub_picture}" class="card-img-top" alt="...">
                 <div class="card-footer text-center">
