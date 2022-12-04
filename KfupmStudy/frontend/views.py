@@ -15,6 +15,12 @@ def home(request):
 def tests(request, subject):
     return render(request, 'frontend/tests.html')
 
+@login_required(login_url= "login")
+def test(request, test):
+    return render(request, 'frontend/test.html', {
+        'test': test
+    })
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("home"))  

@@ -1,6 +1,5 @@
 const tests_list = document.getElementById("Tests-list")
 const subject = window.location.href.slice(27)
-console.log(subject)
 fetch(`http://127.0.0.1:8000/api/subjects/${subject}`)
 .then(e => e.json())
 .then(result =>{
@@ -19,3 +18,9 @@ fetch(`http://127.0.0.1:8000/api/subjects/${subject}`)
     }
 })
 
+tests_list.addEventListener('click', function(e){
+    container = e.target.parentElement
+    if(container.classList[0] === 'card'){
+        window.location.href = `http://127.0.0.1:8000/home/test/${container.id}`
+    }
+})

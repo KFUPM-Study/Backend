@@ -29,16 +29,16 @@ class TakeTest(APIView):
         Tserializer = TestSerializer(test)
         data = Tserializer.data
 
-        questions = {}
+        questions = []
         for question in data['questions']:
             q = Question.objects.get(id = question)
             serializer = QuestionSerializer(q).data
             answer = Answer.objects.get(question = q)
             answers = AnswerSerializer(answer)
-
+            
             serializer["answers"] = answers.data
             
-            questions[q.question_num] = serializer
+            questions.append(serializer)
 
             
                
