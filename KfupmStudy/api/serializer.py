@@ -25,3 +25,8 @@ class AnswerSerializer(ModelSerializer):
     class Meta:
         model = Answer
         fields = ['id','choice_A', 'choice_B', 'choice_C', 'choice_D']
+
+class AnswerSerializerAll(ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['id','choice_A', 'choice_B', 'choice_C', 'choice_D','correct_answer']        

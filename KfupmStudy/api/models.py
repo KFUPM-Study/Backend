@@ -18,7 +18,7 @@ class Score(models.Model):
     
 
     def __str__(self):
-        return f'{self.test.title} : {self.user_score}'
+        return f'{self.student.username}:{self.test.title} : {self.user_score}'
 
 class Test(models.Model):
     title = models.CharField(max_length= 24, blank= True)
