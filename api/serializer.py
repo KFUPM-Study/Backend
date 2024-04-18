@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Subject, Test, Question, Answer
+from .models import Subject, Test, Question, Choice
 
 class SubjectsSerializer(ModelSerializer):
     class Meta:
@@ -9,24 +9,24 @@ class SubjectsSerializer(ModelSerializer):
 class TestsSerializer(ModelSerializer):
     class Meta:
         model = Test
-        fields = ['title']
+        fields = '__all__'
 
 class TestSerializer(ModelSerializer):
     class Meta:
         model = Test
-        fields = ['title', 'score', 'questions']
+        fields = '__all__'
 
 class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'question_body']
+        fields = '__all__'
 
 class AnswerSerializer(ModelSerializer):
     class Meta:
-        model = Answer
-        fields = ['id','choice_A', 'choice_B', 'choice_C', 'choice_D']
+        model = Choice
+        fields = '__all__'
 
 class AnswerSerializerAll(ModelSerializer):
     class Meta:
-        model = Answer
-        fields = ['id','choice_A', 'choice_B', 'choice_C', 'choice_D','correct_answer']        
+        model = Choice
+        fields = '__all__'      

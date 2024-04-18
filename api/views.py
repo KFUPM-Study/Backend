@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import SubjectsSerializer,AnswerSerializerAll, TestsSerializer, AnswerSerializer,QuestionSerializer, TestSerializer
-from .models import Subject, Test, Question, Answer, Score
+from .models import Subject, Test, Question, Choice, Score
 
 # Create your views here.
 
@@ -17,8 +17,7 @@ def getSubjects(request):
 @api_view(['GET'])
 def getTests(request, subject):
     subject = Subject.objects.get(name = subject)
-    test = Test.objects.filter(subject = subject)
-    serializer = TestsSerializer(test, many = True)
+    serializer = TestsSerializer(subject.tests, many = True)
     for test in serializer.data:
         test['picture'] = str(subject.picture)
     return Response(serializer.data)
@@ -33,7 +32,7 @@ class GetTest(APIView):
         for question in data['questions']:
             q = Question.objects.get(id = question)
             serializer = QuestionSerializer(q).data
-            answer = Answer.objects.get(question = q)
+            answer = Choice.objects.get(question = q)
             answers = AnswerSerializer(answer)
             
             serializer["answers"] = answers.data
