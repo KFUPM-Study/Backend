@@ -34,7 +34,9 @@ class Test(models.Model):
 class Question(models.Model):
     question_body = models.TextField()
     choices = models.ManyToManyField("Choice")
-    answer = models.ForeignKey("Choice", on_delete=models.PROTECT, null=True, related_name="+")
+
+    def getCorrectAnswer(self):
+        return self.choices.filter(isCorrect = True)
 
     def __str__(self):
         return f'{self.question_body}'
