@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializer import SubjectsSerializer,AnswerSerializerAll, TestsSerializer, AnswerSerializer,QuestionSerializer, TestSerializer
+from .serializer import SubjectsSerializer,AnswerSerializerAll, TestsSerializer, TestSerializer
 from .models import Subject, Test, Question, Choice, Score
 
 # Create your views here.
@@ -17,34 +17,18 @@ def getSubjects(request):
 @api_view(['GET'])
 def getTests(request, subject):
     subject = Subject.objects.get(name = subject)
-    serializer = TestsSerializer(subject.tests, many = True)
-    for test in serializer.data:
-        test['picture'] = str(subject.picture)
+    tests = Test.objects.filter(subject = subject)
+
+    serializer = TestsSerializer(tests, many = True)
+
     return Response(serializer.data)
 
-class GetTest(APIView):
-    def get(self, request, test):
-        test = Test.objects.get(title = test)
-        Tserializer = TestSerializer(test)
-        data = Tserializer.data
-
-        questions = []
-        for question in data['questions']:
-            q = Question.objects.get(id = question)
-            serializer = QuestionSerializer(q).data
-            answer = Choice.objects.get(question = q)
-            answers = AnswerSerializer(answer)
-            
-            serializer["answers"] = answers.data
-            
-            questions.append(serializer)
-
-            
-               
-        data["questions"] = questions  
-
-
-        return Response(data)
+@api_view(['GET'])
+def getTest(request, test):
+    test = Test.objects.get(title = test)
+    Tserializer = TestSerializer(test)
+    
+    return Response(Tserializer.data)
 
 
 class TakeTest(APIView):

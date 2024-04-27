@@ -1,30 +1,34 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ImageField
 from .models import Subject, Test, Question, Choice
 
 class SubjectsSerializer(ModelSerializer):
     class Meta:
         model = Subject
-        fields = '__all__'
+        fields = ["id", "name", "picture"]
 
 class TestsSerializer(ModelSerializer):
+    picture = ImageField(source="subject.picture")
     class Meta:
         model = Test
-        fields = '__all__'
+        fields = ["id", "title", "picture"]
 
-class TestSerializer(ModelSerializer):
-    class Meta:
-        model = Test
-        fields = '__all__'
-
-class QuestionSerializer(ModelSerializer):
-    class Meta:
-        model = Question
-        fields = '__all__'
-
-class AnswerSerializer(ModelSerializer):
+class ChoiceSerializer(ModelSerializer):
     class Meta:
         model = Choice
-        fields = '__all__'
+        fields = ["id", 'choice_body']
+class QuestionSerializer(ModelSerializer):
+    choices = ChoiceSerializer(many = True)
+    class Meta:
+        model = Question
+        fields = ["id", "question_body", "choices"]
+
+class TestSerializer(ModelSerializer):
+    questions = QuestionSerializer(many = True)
+    class Meta:
+        model = Test
+        fields = ["id", "title", "questions"]
+        depth = 2
+
 
 class AnswerSerializerAll(ModelSerializer):
     class Meta:

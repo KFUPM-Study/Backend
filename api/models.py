@@ -2,12 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class Student(AbstractUser):
-    tests = models.ManyToManyField("Score")
+    tests = models.ManyToManyField("Score", related_name="student")
     
 
 class Subject(models.Model):
     name = models.CharField(max_length= 24)
-    tests = models.ManyToManyField("Test", blank=True)
     picture = models.ImageField(upload_to=r"frontend/static/media/subject_pic")
 
     def __str__(self):
@@ -22,6 +21,7 @@ class Score(models.Model):
 
 class Test(models.Model):
     title = models.CharField(max_length= 24, blank= True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     questions = models.ManyToManyField("Question")
 
     def __str__(self):
@@ -34,7 +34,7 @@ class Test(models.Model):
 class Question(models.Model):
     question_body = models.TextField()
     choices = models.ManyToManyField("Choice")
-    answer = models.ForeignKey("Choice", on_delete=models.PROTECT, null=True, related_name="correctAnswer")
+    answer = models.ForeignKey("Choice", on_delete=models.PROTECT, null=True, related_name="+")
 
     def __str__(self):
         return f'{self.question_body}'

@@ -17,13 +17,12 @@ async function getTest(){
                 </div>
                 <div class='card-body'>
                     <select class="form-select" aria-label="Default select example" id='${question.id}'>
-                        <option value="A">${question.answers.choice_A}</option>
-                        <option value="B">${question.answers.choice_B}</option>
-                        <option value="C">${question.answers.choice_C}</option>
-                        <option value='D'>${question.answers.choice_D}</option>
-                    </select>
-                </div>
             `
+            for(choice of question.choices){
+                data += `<option value="${choice.id}">${choice.choice_body}</option>`
+            }
+
+            data += "</select></div>"
             container.innerHTML += data
         }
         container.innerHTML += '<button type="button" class="btn btn-success mt-2" id="submit_btn">Submit</button>'
