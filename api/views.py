@@ -24,8 +24,8 @@ def getTests(request, subject):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getTest(request, test):
-    test = Test.objects.get(title = test)
+def getTest(request, id):
+    test = Test.objects.get(id = id)
     Tserializer = TestSerializer(test)
     
     return Response(Tserializer.data)

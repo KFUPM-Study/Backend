@@ -8,7 +8,7 @@ fetch(`http://127.0.0.1:8000/api/subjects/${subject[subject.length -1]}`)
         test_picture = test.picture.slice(9)
         tests_list.innerHTML += `
         <div class="col-6 col-xl-4  mt-3">
-            <div class="card" id="${test_title}">
+            <div class="card" id="${test.id}">
                 <img src="${test_picture}" class="card-img-top" alt="...">
                 <div class="card-footer text-center">
                     ${test_title}

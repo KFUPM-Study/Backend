@@ -16,9 +16,9 @@ def tests(request, subject):
     return render(request, 'frontend/tests.html')
 
 @login_required(login_url= "login")
-def test(request, test):
+def test(request, id):
     return render(request, 'frontend/test.html', {
-        'test': test
+        'test': id
     })
 
 def logout_view(request):
