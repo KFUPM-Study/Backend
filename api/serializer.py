@@ -20,7 +20,7 @@ class QuestionSerializer(ModelSerializer):
     choices = ChoiceSerializer(many = True)
     class Meta:
         model = Question
-        fields = ["id", "question_body", "choices"]
+        fields = ["id", "questionBody", "choices"]
 
 class TestSerializer(ModelSerializer):
     questions = QuestionSerializer(many = True)
