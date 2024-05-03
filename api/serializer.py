@@ -1,10 +1,10 @@
-from rest_framework.serializers import ModelSerializer, ImageField
+from rest_framework.serializers import ModelSerializer, ImageField, IntegerField
 from .models import Subject, Test, Question, Choice
 
 class SubjectsSerializer(ModelSerializer):
     class Meta:
         model = Subject
-        fields = ["id", "name", "picture"]
+        fields = ["title", "picture"]
 
 class TestsSerializer(ModelSerializer):
     picture = ImageField(source="subject.picture")
@@ -26,8 +26,8 @@ class TestSerializer(ModelSerializer):
     questions = QuestionSerializer(many = True)
     class Meta:
         model = Test
-        fields = ["id", "title", "questions"]
-        depth = 2
+        fields = ["id", "title", "questions", "num"]
+        #depth = 2
 
 
 class AnswerSerializerAll(ModelSerializer):

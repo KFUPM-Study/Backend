@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from api.models import Student
+from api.models import CustomUser
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
@@ -59,7 +59,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = Student.objects.create_user(username, email, password)
+            user = CustomUser.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
             return render(request, "frontend/register.html", {

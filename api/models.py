@@ -1,28 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-class Student(AbstractUser):
-    tests = models.ManyToManyField("Score", related_name="student")
+class CustomUser(AbstractUser):
+    pass
     
 
 class Subject(models.Model):
-    name = models.CharField(max_length= 24)
+    title = models.CharField(max_length= 24, primary_key=True)
     picture = models.ImageField(upload_to=r"frontend/static/media/subject_pic")
 
     def __str__(self):
-        return f'{self.name}'
-
-class Score(models.Model):
-    test = models.ForeignKey('Test', on_delete=models.CASCADE, related_name='+')
-    user_score = models.PositiveIntegerField()
-    
-    def __str__(self):
-        return f'{self.test.title} : {self.user_score}'
+        return f'{self.title}'
 
 class Test(models.Model):
     title = models.CharField(max_length= 24, blank= True)
+    host = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    questions = models.ManyToManyField("Question")
+    active = models.BooleanField(default=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.title}'
@@ -33,7 +28,7 @@ class Test(models.Model):
     
 class Question(models.Model):
     question_body = models.TextField()
-    choices = models.ManyToManyField("Choice")
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name="questions")
 
     def getCorrectAnswer(self):
         return self.choices.filter(isCorrect = True)
@@ -44,7 +39,27 @@ class Question(models.Model):
 class Choice(models.Model):
     choice_body = models.TextField()
     isCorrect = models.BooleanField()
+    question = models.ForeignKey(Question,on_delete=models.CASCADE, related_name="choices")
     
 
     def __str__(self):
         return f'{self.choice_body}'
+    
+class TakeTest(models.Model):
+    # Tests history for users
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="tests")
+    createdAt = models.DateTimeField(auto_now_add=True)
+    
+    def getScore(self):
+        # return the number of correct answers
+        return self.answeredQuestions.filter(answer__isCorrect = True).count()
+
+    def __str__(self):
+        return f'({self.user.username}){self.test.title} : {self.getScore()}'
+    
+class TakeQuestion(models.Model):
+    # questions answered by user
+    takeTest = models.ForeignKey(TakeTest, on_delete=models.CASCADE, related_name="answeredQuestions")
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    answer = models.ForeignKey(Choice,on_delete=models.CASCADE)
