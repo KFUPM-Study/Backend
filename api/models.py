@@ -1,8 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
-class CustomUser(AbstractUser):
-    pass
     
 
 class Subject(models.Model):
@@ -14,7 +12,7 @@ class Subject(models.Model):
 
 class Test(models.Model):
     title = models.CharField(max_length= 24, blank= True)
-    host = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    host = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -48,7 +46,7 @@ class Choice(models.Model):
 class TakeTest(models.Model):
     # Tests history for users
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="tests")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tests")
     createdAt = models.DateTimeField(auto_now_add=True)
     
     def getScore(self):
