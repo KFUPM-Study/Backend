@@ -2,3 +2,4 @@ django
 djangorestframework
 Pillow
 python-dotenv
+djangorestframework-simplejwt
