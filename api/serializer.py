@@ -15,7 +15,7 @@ class TestsSerializer(ModelSerializer):
 class ChoiceSerializer(ModelSerializer):
     class Meta:
         model = Choice
-        fields = ["id", 'choice_body']
+        fields = ["id", 'choiceBody']
 class QuestionSerializer(ModelSerializer):
     choices = ChoiceSerializer(many = True)
     class Meta:

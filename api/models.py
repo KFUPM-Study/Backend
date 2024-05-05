@@ -35,15 +35,15 @@ class Question(models.Model):
         return f'{self.questionBody}'
 
 class Choice(models.Model):
-    choice_body = models.TextField()
+    choiceBody = models.TextField()
     isCorrect = models.BooleanField()
     question = models.ForeignKey(Question,on_delete=models.CASCADE, related_name="choices")
     
 
     def __str__(self):
-        return f'{self.choice_body}'
+        return f'{self.choiceBody}'
     
-class TakeTest(models.Model):
+class History(models.Model):
     # Tests history for users
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tests")
@@ -51,18 +51,16 @@ class TakeTest(models.Model):
     
     def getScore(self):
         # return the number of correct answers
-        return self.answeredQuestions.filter(answer__isCorrect = True).count()
+        return self.answers.filter(answer__isCorrect = True).count()
 
     def __str__(self):
         return f'({self.user.username}){self.test.title} : {self.getScore()}'
     
-class TakeQuestion(models.Model):
+class SolvedQuestion(models.Model):
     # questions answered by user
-    takeTest = models.ForeignKey(TakeTest, on_delete=models.CASCADE, related_name="answeredQuestions")
-    answer = models.ForeignKey(Choice,on_delete=models.CASCADE)
-
-    def getQuestion(self):
-        return self.answer.question
+    takeTest = models.ForeignKey(History, on_delete=models.CASCADE, related_name="answers")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="+")
+    answer = models.ForeignKey(Choice, on_delete=models.CASCADE, related_name="+")
     
     def __str__(self):
-        return f"{self.getQuestion().questionBody}: {self.answer.isCorrect}"
+        return f"{self.question.questionBody}: {self.answer.isCorrect}"
