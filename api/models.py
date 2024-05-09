@@ -43,7 +43,7 @@ class Choice(models.Model):
     def __str__(self):
         return f'{self.choiceBody}'
     
-class History(models.Model):
+class TestAttempt(models.Model):
     # Tests history for users
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tests")
@@ -51,14 +51,14 @@ class History(models.Model):
     
     def getScore(self):
         # return the number of correct answers
-        return self.answers.filter(answer__isCorrect = True).count()
+        return self.questionAttempts.filter(answer__isCorrect = True).count()
 
     def __str__(self):
         return f'({self.user.username}){self.test.title} : {self.getScore()}'
     
-class SolvedQuestion(models.Model):
+class QuestionAttempt(models.Model):
     # questions answered by user
-    takeTest = models.ForeignKey(History, on_delete=models.CASCADE, related_name="answers")
+    history = models.ForeignKey(TestAttempt, on_delete=models.CASCADE, related_name="questionAttempts")
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="+")
     answer = models.ForeignKey(Choice, on_delete=models.CASCADE, related_name="+")
     
