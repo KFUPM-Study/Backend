@@ -26,6 +26,7 @@ class Test(models.Model):
     
 class Question(models.Model):
     questionBody = models.TextField()
+    solution = models.ImageField(upload_to=r"api/static/solutions", blank=True)
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name="questions")
 
     def getCorrectAnswer(self):

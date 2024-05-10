@@ -16,19 +16,25 @@ def getSubjects(request):
 
 @api_view(['GET'])
 def getTests(request, subject):
-    subject = Subject.objects.get(title = subject)
-    tests = Test.objects.filter(subject = subject)
+    try:
+        subject = Subject.objects.get(title = subject)
+        tests = Test.objects.filter(subject = subject)
 
-    serializer = TestsSerializer(tests, many = True)
+        serializer = TestsSerializer(tests, many = True)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+    except:
+        return Response("Subject not found", status=404)
 
 @api_view(['GET'])
 def getTest(request, id):
-    test = Test.objects.get(id = id)
-    Tserializer = TestSerializer(test)
-    
-    return Response(Tserializer.data)
+    try:
+        test = Test.objects.get(id = id)
+        Tserializer = TestSerializer(test)
+        
+        return Response(Tserializer.data)
+    except:
+        return Response("Test not found", status=404)
 
 
 # class TakeTest(APIView):
